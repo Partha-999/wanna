@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Heart's Choice</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: linear-gradient(135deg, #ff6b6b, #ff8787);
+            color: white;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .comparison-container {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            gap: 2rem;
+        }
+        
+        .comparison-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Meghana Column (Dull) */
+        .section-meghana {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+        
+        .section-meghana .section-header {
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #f0f0f0;
+        }
+        
+        .section-meghana .section-header h2 {
+            color: #555;
+            font-size: 1.5rem;
+        }
+        
+        .section-meghana .section-content {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        
+        .section-meghana.active .section-content {
+            padding: 1.5rem;
+            max-height: 1000px;
+        }
+        
+        /* Ammu Column (Colorful) */
+        .section-ammu {
+            background: linear-gradient(135deg, #f8bbd0, #fce4ec);
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            flex: 1;
+            position: relative;
+        }
+        
+        .section-ammu .section-header {
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(135deg, #ff6b6b, #ff6b6b);
+            color: white;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .section-ammu .section-header h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        .section-ammu .section-content {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background-color: #fbcdcd;
+            position: relative;
+        }
+        
+        .section-ammu.active .section-content {
+            padding: 2rem;
+            max-height: 2000px;
+        }
+        
+        .section-ammu .section-content p {
+            margin-bottom: 1rem;
+            color: #555;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Romantic Elements */
+        .heart {
+            color: #ff6b6b;
+            font-size: 1.5rem;
+            animation: pulse 1.5s infinite;
+            display: inline-block;
+        }
+        
+        .butterfly {
+            position: absolute;
+            font-size: 1.2rem;
+            opacity: 0.7;
+            z-index: 1;
+            animation: float 8s infinite;
+        }
+        
+        .love-symbol {
+            position: absolute;
+            font-size: 1rem;
+            color: #ff6b6b;
+            opacity: 0.6;
+            z-index: 1;
+            animation: float 6s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-20px) rotate(5deg); }
+            50% { transform: translateY(0) rotate(0deg); }
+            75% { transform: translateY(-10px) rotate(-5deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+        
+        .arrow {
+            transition: transform 0.3s ease;
+        }
+        
+        .active .arrow {
+            transform: rotate(180deg);
+        }
+
+        @media (max-width: 768px) {
+            .comparison-container {
+                flex-direction: column;
+            }
+        }
+
+        /* Floating hearts in the Ammu section */
+        .floating-hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .heart-particle {
+            position: absolute;
+            font-size: 1rem;
+            color: #ff6b6b;
+            opacity: 0;
+            animation: heart-float 6s infinite;
+        }
+
+        @keyframes heart-float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>My Heart's Choice</h1>
+        <p>Eppatiki nuvveyyyy ❤️</p>
+    </div>
+    
+    <div class="comparison-container">
+        <!-- Meghana Column (Left) -->
+        <div class="comparison-column">
+            <div class="section-meghana" onclick="toggleSection('meghana')">
+                <div class="section-header">
+                    <h2>Meghana Tho</h2>
+                    <div class="arrow">▼</div>
+                </div>
+                <div class="section-content" id="meghana-content">
+                    <p>Meghana naaku friend matrame. Inter lo appudu naa bday celebrate cheyinchindi ani oka manchi opinion anthey, asala aa bday cheyinchakapotey daggara ayye vadine kaadu.</p>
+                    <p>Maa interaction nrml ga undedi eppudu deep vellaledu. Chat chesam oppukunta kaani avi pai paine studies kosam leda ela unnav enti sangathulu, antha okay na anthey!!!</p>
+                    <p>Chat chesinapudu baane unnam, comfortable ee kaani exciting ga undedi kaadu and nuv lekapotey undelanu aney situation kaadu and raaledu. There's no spark, no chemistry, no physics, no biology, just friendship.</p>
+                    <p>Chat lo moments unnayi oppukunta, but none that make my heart race when I remember them. It's a simple, and aa connection ki ey gurthimpu or importance ledu naa manasulo.</p>
+                    <p>Being with her doesn't make me feel alive, neetho unnatu assala 1% kuda anipinchade. Day and night ki entha difference oo define cheyagalam, kaani neeku tanaki madyalo unna difference evaru count cheyaleru, asala lekka pettalenantha distance undi!!!</p>
+                    <p>Ey roju valla parents tho matladali, bday ki wish cheyali, festivals ki wish cheyali, valla daggara manchi impression undali, vallani love cheyali anukoledu.</p>
+                    <p>Ey roju kuda naa pakkana untey baagunu, tanaki tinipinchali, pakkana undi baa chusukovali, edupu raakunda chudali anukoledu.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Ammu Column (Right) -->
+        <div class="comparison-column">
+            <div class="section-ammu" onclick="toggleSection('ammu')">
+                <div class="section-header">
+                    <h2>Naaa Ammuu Thoo <span class="heart">❤️</span></h2>
+                    <div class="arrow">▼</div>
+                </div>
+                <div class="section-content" id="ammu-content">
+                    <div class="floating-hearts" id="floating-hearts"></div>
+                    <div class="butterfly" style="top: 10%; left: 10%;">🦋</div>
+                    <div class="butterfly" style="top: 30%; left: 80%; animation-delay: 1s;">🦋</div>
+                    <div class="butterfly" style="top: 60%; left: 20%; animation-delay: 2s;">🦋</div>
+                    <div class="love-symbol" style="top: 20%; left: 30%;">💖</div>
+                    <div class="love-symbol" style="top: 50%; left: 70%; animation-delay: 1s;">💘</div>
+                    <div class="love-symbol" style="top: 70%; left: 15%; animation-delay: 2s;">💓</div>
+                    
+                    <p>Ammuuu, you're my heartbeat, my soulmate, my eternal love. Mana first conversation nundi naaku neetho oka special connection undey, adi maatallo cheppalenu. <span class="heart">❤️</span></p>
+                    <p>Mana prathi chat lo naaku oka special feel, naa heart beat istam ga kottukovadam, nee soul ki connect ayyela undadam, spark raavadam ila jarigevi. Even mana silences kuda meaningful ee vaatini kuda gurthu pettukuna, and vaati nundi ela normal avvali ani plans vese vaadini. <span class="heart">💞</span></p>
+                    <p>Being with you feels like finding the missing soul of myself. Your smile is my sunrise, your voice is my favorite song, and your love[which I'm waiting for] is my most precious boon. <span class="heart">💕</span></p>
+                    <p>Neetho unna prathi moment naaku treasure laantidi - our first talk, our inside jokes, the way you call me. Ivi evi naaku just memories kaadu, they're the golden threads of my life's tapestry. <span class="heart">💗</span></p>
+                    <p>Nuv oka meme save chesav vd di wfl movie lodhi, prema maatallone kaadu actions lo baa chupinchachu ani, nuv okasari mana chat chaduvu ammu summer holidays lo nee bday mundu manam kalisi movies chuse vallam and everyday call undedi kada aa chats chaduvu, naa prema ardam avtadi prathi chat lo. <span class="heart">💘</span></p>
+                    <p>Cycle kosam tana daggara em analedu, kaani nee cycle dates naaku important, neeku noppi tagginchali ani aasa naa efforts, nuv chi po anna ignore chesina nuv kaavali anna prema, tanaki 1% kaadu kada 0.0000001% kuda ivvaledu nenu. <span class="heart">💖</span></p>
+                    <p>GITAM lo tanu join avvakudadu ani korukunna, nuv antey naaku entho istamo tanaki chats lo cheppa, nuv chudali ani, neeku ardam kaavali ani, enni sarlu adigina evariki ivvani accounts, neeku icha adagakunda, nee value ento chustav ani, ig lo tele lo nee kosame raasukuna, vallatho nee kosame cheppa, eroju baa matladindi, eroju naa kosam undi ani etc etc. <span class="heart">💝</span></p>
+                    <p>While Meghana is just a friend, you are my destiny. A friendship asala comparison ee kaadu, naa jeevithanne marchese prema undi nee meeda. You're not just my choice - you're my heart's inevitable destination. <span class="heart">❤️🔥</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function toggleSection(section) {
+            const sectionElement = document.querySelector(`.section-${section}`);
+            const contentElement = document.getElementById(`${section}-content`);
+            
+            sectionElement.classList.toggle('active');
+        }
+
+        // Create floating hearts
+        const heartsContainer = document.getElementById('floating-hearts');
+        for (let i = 0; i < 15; i++) {
+            const heart = document.createElement('div');
+            heart.className = 'heart-particle';
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            heart.style.animationDuration = 3 + Math.random() * 7 + 's';
+            heartsContainer.appendChild(heart);
+        }
+    </script>
+</body>
+</html>
